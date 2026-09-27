@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Айрат | Главный по ПК 🎮</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Unbounded:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gamer: {
+                            dark: '#080B10',
+                            card: '#101726',
+                            border: '#1E293B',
+                            neonGreen: '#00FF66',
+                            neonCyan: '#00F0FF',
+                            neonPurple: '#A855F7',
+                            neonRed: '#FF2A5F',
+                            neonYellow: '#FFE600'
+                        }
+                    },
+                    fontFamily: {
+                        pixel: ['"Press Start 2P"', 'cursive'],
+                        heading: ['Unbounded', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'rgb-border': 'rgbBorder 4s linear infinite'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { filter: 'drop-shadow(0 0 10px rgba(0, 255, 102, 0.4))' },
+                            '100%': { filter: 'drop-shadow(0 0 25px rgba(0, 240, 255, 0.8))' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        rgbBorder: {
+                            '0%': { borderColor: '#00FF66' },
+                            '33%': { borderColor: '#00F0FF' },
+                            '66%': { borderColor: '#A855F7' },
+                            '100%': { borderColor: '#00FF66' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #080B10;
+            color: #E2E8F0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 255, 102, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #00FF66, #00F0FF, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(16, 23, 38, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glow-box-green {
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
+        }
+
+        .glow-box-red {
+            box-shadow: 0 0 20px rgba(FF, 42, 95, 0.25);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080B10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00FF66;
+        }
+    </style>
+</head>
+<body class="selection:bg-gamer-neonGreen selection:text-black">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-5xl">
+        <div class="glass-card rounded-2xl px-5 py-3 flex items-center justify-between border border-white/10 shadow-2xl">
+            <a href="#" class="font-heading font-black text-lg text-white flex items-center gap-2 group">
+                <span class="text-gamer-neonGreen group-hover:rotate-12 transition-transform inline-block">💻</span>
+                <span class="tracking-wider">АЙРАТ<span class="text-gamer-neonCyan">.PRO</span></span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-300">
+                <a href="#about" class="hover:text-gamer-neonGreen transition-colors">Кто я?</a>
+                <a href="#stats" class="hover:text-gamer-neonCyan transition-colors">Характеристики</a>
+                <a href="#rig" class="hover:text-gamer-neonPurple transition-colors">Мой ПК-Мир</a>
+                <a href="#game" class="hover:text-gamer-neonRed transition-colors">Удалить ДЗ</a>
+            </div>
+
+            <button onclick="playGamerSound('powerup')" class="px-4 py-2 rounded-xl bg-gamer-neonGreen/10 border border-gamer-neonGreen text-gamer-neonGreen hover:bg-gamer-neonGreen hover:text-black font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                <span>Уровень: 5 Класс</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen relative flex items-center justify-center pt-28 pb-16 px-4">
+        <div class="max-w-4xl mx-auto text-center z-10">
+            <!-- Gamer Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-gamer-neonGreen/40 mb-8 animate-float">
+                <span class="w-2.5 h-2.5 rounded-full bg-gamer-neonGreen animate-ping"></span>
+                <span class="pixel-font text-[10px] text-gamer-neonGreen uppercase">STATUS: В ИГРЕ 🎮</span>
+            </div>
+
+            <h1 class="font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight mb-6 leading-tight">
+                ПРИВЕТ, Я <br>
+                <span class="text-gradient animate-pulse-glow">АЙРАТ!</span>
+            </h1>
+
+            <p class="text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto mb-10 font-semibold leading-relaxed">
+                Учусь в <span class="text-gamer-neonCyan underline decoration-gamer-neonCyan/50">5 классе</span>. Обожаю компы, мощное железо и игры. 
+                <span class="text-gamer-neonRed font-bold block mt-1">А вот уроки и домашку — вообще не обожаю! ❌📚</span>
+            </p>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#game" onclick="playGamerSound('click')" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-gamer-neonGreen via-gamer-neonCyan to-gamer-neonPurple text-black font-heading font-black text-sm uppercase tracking-wider glow-box-green hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+                    <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+                    <span>Ирать в "Анти-ДЗ"</span>
+                </a>
+                <a href="#about" onclick="playGamerSound('click')" class="w-full sm:w-auto px-8 py-4 rounded-2xl glass-card hover:bg-white/10 text-white font-heading font-bold text-xs uppercase tracking-wider transition-all border border-white/10 flex items-center justify-center gap-2">
+                    <span>Мои статы</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Stats Section -->
+    <section id="about" class="py-20 px-4 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="pixel-font text-xs text-gamer-neonCyan block mb-2">[ PLAYER_INFO ]</span>
+                <h2 class="font-heading font-black text-3xl md:text-5xl text-white">ПАСПОРТ ГЕЙМЕРА</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <!-- Gamer Card -->
+                <div class="glass-card p-8 rounded-3xl border border-gamer-neonGreen/30 relative overflow-hidden animate-rgb-border">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-gamer-neonGreen to-gamer-neonCyan p-1">
+                            <div class="w-full h-full bg-gamer-dark rounded-xl flex items-center justify-center text-2xl">
+                                💻
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-xl text-white">Айрат</h3>
+                            <p class="text-xs font-semibold text-slate-400">Школа: 5 Класс | Профиль: Техно-Гений</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-slate-300 text-sm leading-relaxed mb-6">
+                        <p class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-gamer-neonGreen shrink-0 mt-0.5"></i>
+                            <span>Могу разобрать и собрать компьютер с закрытыми глазами (ну почти).</span>
+                        </p>
+                        <p class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-gamer-neonGreen shrink-0 mt-0.5"></i>
+                            <span>Знаю все горячие клавиши, чтобы быстро свернуть игру, когда заходят родители.</span>
+                        </p>
+                        <p class="flex items-start gap-2">
+                            <i data-lucide="x-circle" class="w-5 h-5 text-gamer-neonRed shrink-0 mt-0.5"></i>
+                            <span>Домашка по математике и русскому — мой главный враг!</span>
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-900/80 border border-white/5 flex items-center justify-between">
+                        <span class="pixel-font text-[10px] text-slate-400">ДЕВИЗ:</span>
+                        <span class="font-heading font-bold text-xs text-gamer-neonYellow">"МЕНЬШЕ ДЗ — БОЛЬШЕ FPS!"</span>
+                    </div>
+                </div>
+
+                <!-- Stat Bars Section -->
+                <div id="stats" class="glass-card p-8 rounded-3xl border border-white/10 space-y-6">
+                    <h3 class="font-heading font-bold text-lg text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-gamer-neonCyan"></i>
+                        <span>Характеристики персонажа</span>
+                    </h3>
+
+                    <!-- Stat 1 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-slate-300">Любовь к компьютерам</span>
+                            <span class="text-gamer-neonGreen">100% (MAX)</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-white/5">
+                            <div class="bg-gamer-neonGreen h-full rounded-full w-[100%] transition-all duration-1000"></div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-slate-300">Навык скипать домашку</span>
+                            <span class="text-gamer-neonCyan">9999 LVL</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-white/5">
+                            <div class="bg-gamer-neonCyan h-full rounded-full w-[95%] transition-all duration-1000"></div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-slate-300">Терпение на уроках</span>
+                            <span class="text-gamer-neonYellow">5% (Критично)</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-white/5">
+                            <div class="bg-gamer-neonYellow h-full rounded-full w-[5%] transition-all duration-1000"></div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-slate-300">Любовь к учебе и школе</span>
+                            <span class="text-gamer-neonRed">0% (ERROR 404)</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-white/5">
+                            <div class="bg-gamer-neonRed h-full rounded-full w-[1%] transition-all duration-1000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup & Hobbies Section -->
+    <section id="rig" class="py-20 px-4 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="pixel-font text-xs text-gamer-neonPurple block mb-2">[ MY_FAVORITES ]</span>
+                <h2 class="font-heading font-black text-3xl md:text-5xl text-white">ЧТО Я ОБОЖАЮ</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Hobby 1 -->
+                <div class="glass-card p-6 rounded-3xl border border-white/5 hover:border-gamer-neonGreen/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-2xl bg-gamer-neonGreen/10 text-gamer-neonGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-white mb-2">Железо & ПК</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Люблю мощные видеокарты, RGB подсветку и водяное охлаждение.</p>
+                </div>
+
+                <!-- Hobby 2 -->
+                <div class="glass-card p-6 rounded-3xl border border-white/5 hover:border-gamer-neonCyan/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-2xl bg-gamer-neonCyan/10 text-gamer-neonCyan flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="gamepad" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-white mb-2">Игры</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Minecraft, Roblox, шутеры и симуляторы. В играх я настоящий про!</p>
+                </div>
+
+                <!-- Hobby 3 -->
+                <div class="glass-card p-6 rounded-3xl border border-white/5 hover:border-gamer-neonPurple/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-2xl bg-gamer-neonPurple/10 text-gamer-neonPurple flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="code" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-white mb-2">Кодинг</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Создаю свои сайты и хочу написать крутую игру в будущем.</p>
+                </div>
+
+                <!-- Hobby 4 -->
+                <div class="glass-card p-6 rounded-3xl border border-white/5 hover:border-gamer-neonYellow/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-12 h-12 rounded-2xl bg-gamer-neonYellow/10 text-gamer-neonYellow flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="youtube" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-base text-white mb-2">Техно-Ютуб</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Смотрю обзоры гаджетов, сборки компов и смешные мемы.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clicker Mini-Game Section -->
+    <section id="game" class="py-20 px-4 relative">
+        <div class="max-w-3xl mx-auto">
+            <div class="glass-card p-8 sm:p-12 rounded-3xl border border-gamer-neonRed/40 text-center relative overflow-hidden glow-box-red">
+                <span class="pixel-font text-[10px] text-gamer-neonRed uppercase block mb-3 animate-pulse">[ MINI_GAME: DELETE_HOMEWORK ]</span>
+                <h2 class="font-heading font-black text-2xl sm:text-4xl text-white mb-4">СИМУЛЯТОР УДАЛЕНИЯ ДЗ</h2>
+                <p class="text-slate-400 text-sm mb-8">Кликай по кнопке, уничтожай домашку за 5 класс и прокачивай FPS!</p>
+
+                <!-- Stats Counters -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/5">
+                        <div id="scoreText" class="font-heading font-black text-2xl text-gamer-neonGreen">0</div>
+                        <div class="text-[11px] text-slate-400 font-bold mt-1">Уничтожено ДЗ</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/5">
+                        <div id="fpsText" class="font-heading font-black text-2xl text-gamer-neonCyan">60</div>
+                        <div class="text-[11px] text-slate-400 font-bold mt-1">Текущий FPS</div>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 p-4 rounded-2xl bg-slate-900/90 border border-white/5">
+                        <div id="rankText" class="font-heading font-bold text-xs text-gamer-neonYellow flex items-center justify-center h-8">Школьник</div>
+                        <div class="text-[11px] text-slate-400 font-bold mt-1">Ранг Айрата</div>
+                    </div>
+                </div>
+
+                <!-- Delete Homework Button -->
+                <button id="deleteHwBtn" class="w-full sm:w-auto px-10 py-6 rounded-2xl bg-gradient-to-r from-gamer-neonRed via-pink-600 to-gamer-neonPurple text-white font-heading font-black text-base uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 mx-auto">
+                    <i data-lucide="trash-2" class="w-6 h-6"></i>
+                    <span>УДАЛИТЬ ДОМАШКУ! 🔥</span>
+                </button>
+
+                <p class="text-xs text-slate-500 mt-6">* Нажми 50 раз, чтобы разблокировать секретный ранг "КИБЕР-АЙРАТ"!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lifehacks / Rules Section -->
+    <section class="py-20 px-4 relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="pixel-font text-xs text-gamer-neonYellow block mb-2">[ AIRAT_CHEATS ]</span>
+                <h2 class="font-heading font-black text-3xl md:text-4xl text-white">ЧИТ-КОДЫ АЙРАТА ДЛЯ ЖИЗНИ</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex gap-4 items-start">
+                    <div class="text-3xl">💡</div>
+                    <div>
+                        <h4 class="font-heading font-bold text-white text-sm mb-1">Правило №1</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Зачем решать сложные задачи по математике, если можно спросить у нейросети или собрать новый компик?</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex gap-4 items-start">
+                    <div class="text-3xl">🎮</div>
+                    <div>
+                        <h4 class="font-heading font-bold text-white text-sm mb-1">Правило №2</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Если учитель спрашивает, где домашка — отвечай, что файл зашифрован вирусом-майнером!</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex gap-4 items-start">
+                    <div class="text-3xl">⚡</div>
+                    <div>
+                        <h4 class="font-heading font-bold text-white text-sm mb-1">Правило №3</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Главное на уроке — не перегреться, как старый процессор без термопасты.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex gap-4 items-start">
+                    <div class="text-3xl">🚀</div>
+                    <div>
+                        <h4 class="font-heading font-bold text-white text-sm mb-1">Правило №4</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Пятница 15:00 — самое лучшее время недели, потому что впереди целые выходные без школы!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/10 relative">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div>
+                <a href="#" class="font-heading font-black text-xl text-white">АЙРАТ<span class="text-gamer-neonGreen">.PRO</span></a>
+                <p class="text-slate-500 text-xs mt-1">Сайт создан Айратом из 5 класса • Все права защищены от ДЗ © 2026</p>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button onclick="playGamerSound('powerup'); confetti({particleCount: 100, spread: 70, origin: {y: 0.8}})" class="p-3 glass-card rounded-xl text-gamer-neonGreen hover:scale-110 transition-transform">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Web Audio Synthesizer for Gamer Sound Effects
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playGamerSound(type) {
+            initAudio();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } 
+            else if (type === 'delete') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(60, now + 0.2);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+            else if (type === 'powerup') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(261.63, now); // C4
+                osc.frequency.setValueAtTime(329.63, now + 0.08); // E4
+                osc.frequency.setValueAtTime(392.00, now + 0.16); // G4
+                osc.frequency.setValueAtTime(523.25, now + 0.24); // C5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+        }
+
+        // Mini Game Logic
+        let hwScore = 0;
+        let fps = 60;
+        const deleteBtn = document.getElementById('deleteHwBtn');
+        const scoreEl = document.getElementById('scoreText');
+        const fpsEl = document.getElementById('fpsText');
+        const rankEl = document.getElementById('rankText');
+
+        const gamerRanks = [
+            { min: 0, title: "Обычный Школьник" },
+            { min: 10, title: "Геймер 5-го Класса" },
+            { min: 25, title: "Уничтожитель Учебников" },
+            { min: 50, title: "КИБЕР-АЙРАТ 👑" },
+            { min: 100, title: "ВЛАСТЕЛИН КОМПЬЮТЕРОВ 🔥" }
+        ];
+
+        function updateRank() {
+            let currentTitle = gamerRanks[0].title;
+            for (let r of gamerRanks) {
+                if (hwScore >= r.min) {
+                    currentTitle = r.title;
+                }
+            }
+            rankEl.innerText = currentTitle;
+        }
+
+        deleteBtn.addEventListener('click', (e) => {
+            hwScore++;
+            fps += 2;
+
+            scoreEl.innerText = hwScore;
+            fpsEl.innerText = fps;
+
+            updateRank();
+            playGamerSound('delete');
+
+            // Floating particle text animation
+            spawnFloatingText(e.clientX, e.clientY);
+
+            // Confetti on milestone achievements
+            if (hwScore === 10 || hwScore === 25 || hwScore === 50 || hwScore % 50 === 0) {
+                playGamerSound('powerup');
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+                });
+            }
+        });
+
+        function spawnFloatingText(x, y) {
+            const phrases = ['-1 ДЗ! ❌', 'БОЛЬШЕ FPS! ⚡', 'АЙРАТ РУЛИТ! 🔥', 'УРОК ОТМЕНЕН! 🎉'];
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+
+            const el = document.createElement('div');
+            el.innerText = randomPhrase;
+            el.className = 'fixed font-heading font-black text-gamer-neonGreen text-sm pointer-events-none z-50';
+            el.style.left = `${x - 30}px`;
+            el.style.top = `${y - 20}px`;
+            el.style.transition = 'all 0.6s ease-out';
+
+            document.body.appendChild(el);
+
+            setTimeout(() => {
+                el.style.transform = 'translateY(-50px) scale(1.2)';
+                el.style.opacity = '0';
+            }, 20);
+
+            setTimeout(() => {
+                el.remove();
+            }, 600);
+        }
+    </script>
+</body>
+</html>
